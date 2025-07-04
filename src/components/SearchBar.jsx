@@ -8,7 +8,7 @@ export default function SearchBar(setImput, setPictureTitle, setBtnPress) {
         placeholder="Type an image to search..."
         className="h-12 px-5 rounded-md shadow border border-slate-300 text-sm text-slate-800"
         onChange={(e) => {
-          setImput(e.target.value), setPictureTitle(e.target.value);
+          setImput(e.target.value), setPictureTitle(e.target.value)
         }}
       />
       <button

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Render } from "./components/render";
 import SearchBar from "./components/SearchBar";
+import axios from "axios";
 
 export default function App() {
   const [input, setImput] = useState("");
@@ -9,11 +10,35 @@ export default function App() {
   const [pictureTitle, setPictureTitle] = useState("Mountain");
 
   useEffect(() => {
+    async function fetchImage() {
+      try {
+        const response = await axios.get(
+          `https://api.pexels.com/v1/search?query=mountains&per_page=10`,
+          {
+            headers: {
+              Authorization: "49tsFh8le0uK8qKoEeJIoYCr60WO4AllXnJbL1OfntjiLKboBuNuInfS",
+            },
+          }
+        );
+        console.log(response.data.photos);
+        if (response.data.photos && response.data.photos.length > 0) {
+          setImageUrl(response.data.photos.map((photo) => photo.src.large));
+        } else {
+          setImageUrl([]);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchImage();
+  }, []);
+
+  useEffect(() => {
     if (!input || !btnPress) return;
 
-    async function fetchImage() {
+    async function fetchImage(url) {
       const response = await fetch(
-        `https://api.pexels.com/v1/search?query=${encodeURIComponent(input)}&per_page=40`,
+        `https://api.pexels.com/v1/search?query=${encodeURIComponent(url)}&per_page=40`,
         {
           headers: {
             Authorization: "49tsFh8le0uK8qKoEeJIoYCr60WO4AllXnJbL1OfntjiLKboBuNuInfS",
@@ -29,8 +54,7 @@ export default function App() {
       }
       setBtnPress(false);
     }
-
-    fetchImage();
+    fetchImage(input);
   }, [btnPress]);
 
   return (
