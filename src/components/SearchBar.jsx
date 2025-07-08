@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SearchBar(setImput, setPictureTitle, setBtnPress) {
+export default function SearchBar({setImput, setPictureTitle, setBtnPress}) {
   return (
     <div className="flex items-center justify-between mb-10 px-4 pt-2 gap-3">
       <input
